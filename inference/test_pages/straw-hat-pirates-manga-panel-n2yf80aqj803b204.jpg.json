@@ -1,0 +1,36 @@
+{
+  "regions": [
+    {
+      "bbox": [
+        1436.0,
+        29.0,
+        1595.0,
+        228.0
+      ],
+      "text": "お前らが！！！",
+      "confidence": 1.0
+    },
+    {
+      "bbox": [
+        224.0,
+        44.0,
+        446.0,
+        301.0
+      ],
+      "text": "勝手に決めろォ！！！",
+      "confidence": 1.0
+    }
+  ],
+  "meta": {
+    "downscaled": false,
+    "scale_factor": 1.0,
+    "original_size": [
+      1920,
+      1083
+    ],
+    "processed_size": [
+      1920,
+      1083
+    ]
+  }
+}

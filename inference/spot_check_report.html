@@ -1,0 +1,421 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Spec 00 OCR Spike -- Spot Check</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #1b1b1f; color: #eee; margin: 0; padding: 24px; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  p.sub { color: #999; margin-top: 0; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+  .card { background: #26262c; border-radius: 10px; padding: 14px; }
+  .card h2 { font-size: 0.85rem; font-weight: 500; color: #bbb; margin: 0 0 10px; word-break: break-all; }
+  .imgwrap { position: relative; width: 100%; background: #000; border-radius: 6px; overflow: hidden; }
+  .imgwrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .imgwrap svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .box { fill: rgba(255, 60, 60, 0.12); stroke: #ff3c3c; stroke-width: 3; }
+  .boxlabel { fill: #ff3c3c; font-size: 28px; font-weight: bold; paint-order: stroke; stroke: #000; stroke-width: 4px; }
+  ol.regions { margin: 10px 0 0; padding-left: 20px; font-size: 0.85rem; line-height: 1.5; }
+  ol.regions .idx { color: #ff3c3c; font-weight: bold; }
+  ol.regions .conf { color: #888; }
+  ol.regions .empty { color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>Spec 00 OCR Spike -- Visual Spot Check</h1>
+<p class="sub">30 pages. Red boxes = detected regions, numbered to match the list below each image. Open this file directly from disk -- fully offline, no server needed.</p>
+<div class="grid">
+
+    <section class="card">
+      <h2>d1efd27042d9dc52abb12bd8a4025c76.jpg</h2>
+      <div class="imgwrap" style="aspect-ratio: 578 / 980;">
+        <img src="test_pages/d1efd27042d9dc52abb12bd8a4025c76.jpg" alt="d1efd27042d9dc52abb12bd8a4025c76.jpg" />
+        <svg viewBox="0 0 578 980" preserveAspectRatio="none">
+          <rect x="499.0" y="41.0" width="39.0" height="88.0" class="box" /><text x="499.0" y="37.0" class="boxlabel">1</text><rect x="476.0" y="148.0" width="67.0" height="105.0" class="box" /><text x="476.0" y="144.0" class="boxlabel">2</text><rect x="179.0" y="52.0" width="40.0" height="70.0" class="box" /><text x="179.0" y="48.0" class="boxlabel">3</text><rect x="250.0" y="140.0" width="56.0" height="89.0" class="box" /><text x="250.0" y="136.0" class="boxlabel">4</text><rect x="2.0" y="52.0" width="53.0" height="74.0" class="box" /><text x="2.0" y="48.0" class="boxlabel">5</text><rect x="9.0" y="177.0" width="48.0" height="88.0" class="box" /><text x="9.0" y="173.0" class="boxlabel">6</text><rect x="472.0" y="305.0" width="91.0" height="87.0" class="box" /><text x="472.0" y="301.0" class="boxlabel">7</text><rect x="525.0" y="430.0" width="34.0" height="91.0" class="box" /><text x="525.0" y="426.0" class="boxlabel">8</text><rect x="124.0" y="318.0" width="74.0" height="58.0" class="box" /><text x="124.0" y="314.0" class="boxlabel">9</text><rect x="12.0" y="319.0" width="91.0" height="75.0" class="box" /><text x="12.0" y="315.0" class="boxlabel">10</text><rect x="497.0" y="583.0" width="26.0" height="136.0" class="box" /><text x="497.0" y="579.0" class="boxlabel">11</text><rect x="354.0" y="479.0" width="17.0" height="57.0" class="box" /><text x="354.0" y="475.0" class="boxlabel">12</text><rect x="0.0" y="477.0" width="43.0" height="56.0" class="box" /><text x="0.0" y="473.0" class="boxlabel">13</text><rect x="176.0" y="765.0" width="75.0" height="132.0" class="box" /><text x="176.0" y="761.0" class="boxlabel">14</text><rect x="15.0" y="868.0" width="43.0" height="67.0" class="box" /><text x="15.0" y="864.0" class="boxlabel">15</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 食うのかよこれ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> もうおにぎりじゃなくてドロのかたまりだぞ？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ガタガタぬかすな <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> いくら腹減っててもこりゃあ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 黙って食わせろ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 落ちてんの全部だ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> バリッパリッモグッ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> う．．．ううっ！！！ここでここからこそ！？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">9</span> だから言ったろ死にてェのか？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">10</span> ゴブッ．．．あ．．．あのガキに伝えてくれねェか．．！！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">11</span> 「うまかった」 <span class="conf">(conf 1.00)</span></li><li><span class="idx">12</span> ．．．そうだ <span class="conf">(conf 1.00)</span></li><li><span class="idx">13</span> ？何を <span class="conf">(conf 1.00)</span></li><li><span class="idx">14</span> ごちそうさまでした」．．．ってよ <span class="conf">(conf 1.00)</span></li><li><span class="idx">15</span> ．．．．．はは！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>straw-hat-pirates-manga-panel-n2yf80aqj803b204.jpg</h2>
+      <div class="imgwrap" style="aspect-ratio: 1920 / 1083;">
+        <img src="test_pages/straw-hat-pirates-manga-panel-n2yf80aqj803b204.jpg" alt="straw-hat-pirates-manga-panel-n2yf80aqj803b204.jpg" />
+        <svg viewBox="0 0 1920 1083" preserveAspectRatio="none">
+          <rect x="1436.0" y="29.0" width="159.0" height="199.0" class="box" /><text x="1436.0" y="25.0" class="boxlabel">1</text><rect x="224.0" y="44.0" width="222.0" height="257.0" class="box" /><text x="224.0" y="40.0" class="boxlabel">2</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> お前らが！！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 勝手に決めろォ！！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.05.26.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 720 / 742;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.05.26.jpeg" alt="WhatsApp Image 2026-07-22 at 19.05.26.jpeg" />
+        <svg viewBox="0 0 720 742" preserveAspectRatio="none">
+          <rect x="285.0" y="34.0" width="52.0" height="123.0" class="box" /><text x="285.0" y="30.0" class="boxlabel">1</text><rect x="611.0" y="175.0" width="62.0" height="122.0" class="box" /><text x="611.0" y="171.0" class="boxlabel">2</text><rect x="71.0" y="195.0" width="63.0" height="138.0" class="box" /><text x="71.0" y="191.0" class="boxlabel">3</text><rect x="612.0" y="379.0" width="71.0" height="157.0" class="box" /><text x="612.0" y="375.0" class="boxlabel">4</text><rect x="373.0" y="385.0" width="54.0" height="124.0" class="box" /><text x="373.0" y="381.0" class="boxlabel">5</text><rect x="261.0" y="387.0" width="80.0" height="128.0" class="box" /><text x="261.0" y="383.0" class="boxlabel">6</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 何でオレ達７班の先生だけ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> ナルト！じっとしときなさいよ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> こんなに来んのか遅せーんだってばよォ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> ほかの班はみんな新しい先生とどっか行っちまったし <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> イルカ先生も帰っちまうし！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> ちょっと！！何やってんのナルト！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.10.59.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 720 / 747;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.10.59.jpeg" alt="WhatsApp Image 2026-07-22 at 19.10.59.jpeg" />
+        <svg viewBox="0 0 720 747" preserveAspectRatio="none">
+          <rect x="330.0" y="59.0" width="38.0" height="178.0" class="box" /><text x="330.0" y="55.0" class="boxlabel">1</text><rect x="67.0" y="59.0" width="78.0" height="186.0" class="box" /><text x="67.0" y="55.0" class="boxlabel">2</text><rect x="72.0" y="309.0" width="156.0" height="49.0" class="box" /><text x="72.0" y="305.0" class="boxlabel">3</text><rect x="302.0" y="318.0" width="66.0" height="140.0" class="box" /><text x="302.0" y="314.0" class="boxlabel">4</text><rect x="87.0" y="451.0" width="106.0" height="47.0" class="box" /><text x="87.0" y="447.0" class="boxlabel">5</text><rect x="310.0" y="563.0" width="62.0" height="93.0" class="box" /><text x="310.0" y="559.0" class="boxlabel">6</text><rect x="91.0" y="569.0" width="50.0" height="120.0" class="box" /><text x="91.0" y="565.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> きゃははは！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 引っかかった！！引っカかっだ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ｏＫ！ＯＫ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 先生ごめんなさい私は止めたんですがナルト君が．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> よみ通りのバタなオチー！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> ．．．これで本当に上忍か？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 頼りなさそうな奴だな．．． <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.11.14.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 707 / 816;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.11.14.jpeg" alt="WhatsApp Image 2026-07-22 at 19.11.14.jpeg" />
+        <svg viewBox="0 0 707 816" preserveAspectRatio="none">
+          <rect x="531.0" y="26.0" width="21.0" height="122.0" class="box" /><text x="531.0" y="22.0" class="boxlabel">1</text><rect x="461.0" y="32.0" width="42.0" height="179.0" class="box" /><text x="461.0" y="28.0" class="boxlabel">2</text><rect x="257.0" y="28.0" width="14.0" height="57.0" class="box" /><text x="257.0" y="24.0" class="boxlabel">3</text><rect x="70.0" y="35.0" width="19.0" height="108.0" class="box" /><text x="70.0" y="31.0" class="boxlabel">4</text><rect x="648.0" y="274.0" width="19.0" height="55.0" class="box" /><text x="648.0" y="270.0" class="boxlabel">5</text><rect x="424.0" y="272.0" width="53.0" height="92.0" class="box" /><text x="424.0" y="268.0" class="boxlabel">6</text><rect x="324.0" y="266.0" width="58.0" height="133.0" class="box" /><text x="324.0" y="262.0" class="boxlabel">7</text><rect x="68.0" y="284.0" width="77.0" height="158.0" class="box" /><text x="68.0" y="280.0" class="boxlabel">8</text><rect x="347.0" y="408.0" width="19.0" height="113.0" class="box" /><text x="347.0" y="404.0" class="boxlabel">9</text><rect x="648.0" y="607.0" width="30.0" height="144.0" class="box" /><text x="648.0" y="603.0" class="boxlabel">10</text><rect x="505.0" y="697.0" width="13.0" height="54.0" class="box" /><text x="505.0" y="693.0" class="boxlabel">11</text><rect x="71.0" y="669.0" width="27.0" height="88.0" class="box" /><text x="71.0" y="665.0" class="boxlabel">12</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> かっこいい．．．♡ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> ．．．オレのことじゃないだろな．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ．．．？？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> ．．．やはりな．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> よし．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> じゃ最後女の子．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 私は春野サクラ好きなものはぁ．．．ってゆーかあ <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> えーとぉ．．．．．将来の夢も言っちゃおうかなぁ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">9</span> 好きな人は．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">10</span> キャーーー！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">11</span> ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">12</span> 趣味はぁ．．． <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.11.36.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 707 / 560;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.11.36.jpeg" alt="WhatsApp Image 2026-07-22 at 19.11.36.jpeg" />
+        <svg viewBox="0 0 707 560" preserveAspectRatio="none">
+          <rect x="404.0" y="25.0" width="66.0" height="66.0" class="box" /><text x="404.0" y="21.0" class="boxlabel">1</text><rect x="408.0" y="156.0" width="44.0" height="98.0" class="box" /><text x="408.0" y="152.0" class="boxlabel">2</text><rect x="652.0" y="352.0" width="18.0" height="50.0" class="box" /><text x="652.0" y="348.0" class="boxlabel">3</text><rect x="516.0" y="460.0" width="19.0" height="67.0" class="box" /><text x="516.0" y="456.0" class="boxlabel">4</text><rect x="383.0" y="461.0" width="76.0" height="73.0" class="box" /><text x="383.0" y="457.0" class="boxlabel">5</text><rect x="312.0" y="10.0" width="31.0" height="96.0" class="box" /><text x="312.0" y="10" class="boxlabel">6</text><rect x="60.0" y="20.0" width="86.0" height="160.0" class="box" /><text x="60.0" y="16.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> つまり我愛羅の前では．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 全ての攻撃が無に帰す．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ぐっ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> くそが．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> お前らじゃウチの我愛羅はヤレないよ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> そ．．．そんな．．．バカな．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> あの千本は厚さ５ミリの鉄板でさえ貫く力があるってのに．．． <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.11.49.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 718 / 796;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.11.49.jpeg" alt="WhatsApp Image 2026-07-22 at 19.11.49.jpeg" />
+        <svg viewBox="0 0 718 796" preserveAspectRatio="none">
+          <rect x="439.0" y="132.0" width="24.0" height="96.0" class="box" /><text x="439.0" y="128.0" class="boxlabel">1</text><rect x="69.0" y="125.0" width="73.0" height="112.0" class="box" /><text x="69.0" y="121.0" class="boxlabel">2</text><rect x="406.0" y="331.0" width="73.0" height="115.0" class="box" /><text x="406.0" y="327.0" class="boxlabel">3</text><rect x="60.0" y="344.0" width="59.0" height="98.0" class="box" /><text x="60.0" y="340.0" class="boxlabel">4</text><rect x="393.0" y="551.0" width="72.0" height="74.0" class="box" /><text x="393.0" y="547.0" class="boxlabel">5</text><rect x="409.0" y="682.0" width="31.0" height="50.0" class="box" /><text x="409.0" y="678.0" class="boxlabel">6</text><rect x="104.0" y="674.0" width="17.0" height="80.0" class="box" /><text x="104.0" y="670.0" class="boxlabel">7</text><rect x="63.0" y="673.0" width="17.0" height="81.0" class="box" /><text x="63.0" y="669.0" class="boxlabel">8</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 苦しみは無い <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 与える必要も無いほど圧倒したから．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 死者の血涙は漢漢たる流砂に混じりーー <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> さらなる力を修羅に与ふ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> ま．．．巻物は．．．お前にやる．．．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> スト <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> お願いだ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> 見逃して．．． <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.11.59.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 702 / 801;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.11.59.jpeg" alt="WhatsApp Image 2026-07-22 at 19.11.59.jpeg" />
+        <svg viewBox="0 0 702 801" preserveAspectRatio="none">
+          <rect x="632.0" y="71.0" width="36.0" height="36.0" class="box" /><text x="632.0" y="67.0" class="boxlabel">1</text><rect x="313.0" y="86.0" width="40.0" height="111.0" class="box" /><text x="313.0" y="82.0" class="boxlabel">2</text><rect x="52.0" y="62.0" width="68.0" height="98.0" class="box" /><text x="52.0" y="58.0" class="boxlabel">3</text><rect x="32.0" y="199.0" width="90.0" height="102.0" class="box" /><text x="32.0" y="195.0" class="boxlabel">4</text><rect x="358.0" y="669.0" width="62.0" height="81.0" class="box" /><text x="358.0" y="665.0" class="boxlabel">5</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 我．．．我愛羅やめなよ．．．ね！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> そんな冷たいこと言わないでさ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 姉さんからもお願いするから．．．ね！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 我愛羅！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.12.36.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 682 / 806;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.12.36.jpeg" alt="WhatsApp Image 2026-07-22 at 19.12.36.jpeg" />
+        <svg viewBox="0 0 682 806" preserveAspectRatio="none">
+          <rect x="506.0" y="14.0" width="89.0" height="171.0" class="box" /><text x="506.0" y="10.0" class="boxlabel">1</text><rect x="40.0" y="14.0" width="98.0" height="213.0" class="box" /><text x="40.0" y="10.0" class="boxlabel">2</text><rect x="516.0" y="374.0" width="27.0" height="71.0" class="box" /><text x="516.0" y="370.0" class="boxlabel">3</text><rect x="395.0" y="569.0" width="30.0" height="72.0" class="box" /><text x="395.0" y="565.0" class="boxlabel">4</text><rect x="79.0" y="643.0" width="47.0" height="126.0" class="box" /><text x="79.0" y="639.0" class="boxlabel">5</text><rect x="43.0" y="691.0" width="28.0" height="78.0" class="box" /><text x="43.0" y="687.0" class="boxlabel">6</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 嫌いな人間が死ぬボタンがあっても多分押せない <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> でも僕のことを嫌いな人間が死ぬボタンなら迷わず押す <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 最悪だ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 高校生が <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 学校サボって映画館来るなよ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 僕もだけど <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.12.54.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 710 / 763;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.12.54.jpeg" alt="WhatsApp Image 2026-07-22 at 19.12.54.jpeg" />
+        <svg viewBox="0 0 710 763" preserveAspectRatio="none">
+          <rect x="562.0" y="17.0" width="80.0" height="147.0" class="box" /><text x="562.0" y="13.0" class="boxlabel">1</text><rect x="38.0" y="30.0" width="99.0" height="124.0" class="box" /><text x="38.0" y="26.0" class="boxlabel">2</text><rect x="469.0" y="303.0" width="137.0" height="85.0" class="box" /><text x="469.0" y="299.0" class="boxlabel">3</text><rect x="552.0" y="444.0" width="88.0" height="109.0" class="box" /><text x="552.0" y="440.0" class="boxlabel">4</text><rect x="468.0" y="511.0" width="28.0" height="111.0" class="box" /><text x="468.0" y="507.0" class="boxlabel">5</text><rect x="239.0" y="433.0" width="108.0" height="150.0" class="box" /><text x="239.0" y="429.0" class="boxlabel">6</text><rect x="52.0" y="581.0" width="61.0" height="157.0" class="box" /><text x="52.0" y="577.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> それは見ようとしないからです <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 私達は普段当たり前の様に呪いを視認しています <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 一級呪術師七海建人 <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 術式を行使すれば痕跡が残る <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> それが残穢 <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> だが残穢は呪霊などに比べ薄い <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 目を凝らしてよく見てください <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.13.05.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 703 / 788;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.13.05.jpeg" alt="WhatsApp Image 2026-07-22 at 19.13.05.jpeg" />
+        <svg viewBox="0 0 703 788" preserveAspectRatio="none">
+          <rect x="316.0" y="49.0" width="88.0" height="114.0" class="box" /><text x="316.0" y="45.0" class="boxlabel">1</text><rect x="35.0" y="70.0" width="69.0" height="87.0" class="box" /><text x="35.0" y="66.0" class="boxlabel">2</text><rect x="40.0" y="239.0" width="19.0" height="88.0" class="box" /><text x="40.0" y="235.0" class="boxlabel">3</text><rect x="494.0" y="380.0" width="75.0" height="126.0" class="box" /><text x="494.0" y="376.0" class="boxlabel">4</text><rect x="376.0" y="415.0" width="40.0" height="68.0" class="box" /><text x="376.0" y="411.0" class="boxlabel">5</text><rect x="59.0" y="392.0" width="73.0" height="124.0" class="box" /><text x="59.0" y="388.0" class="boxlabel">6</text><rect x="509.0" y="596.0" width="93.0" height="141.0" class="box" /><text x="509.0" y="592.0" class="boxlabel">7</text><rect x="47.0" y="617.0" width="80.0" height="126.0" class="box" /><text x="47.0" y="613.0" class="boxlabel">8</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> そして一般企業で働き気づいたことは <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 労働はクソということです <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> そうなの？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 同じクソならより適性のある方を <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 暗いねー <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 出戻った理由なんてそんなもんです <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 虎杖君私と五条さんが同じ考えとは思わないでください <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> 私はこの人を信用しているし信頼してぃる <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.13.25.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 668 / 796;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.13.25.jpeg" alt="WhatsApp Image 2026-07-22 at 19.13.25.jpeg" />
+        <svg viewBox="0 0 668 796" preserveAspectRatio="none">
+          <rect x="573.0" y="79.0" width="77.0" height="63.0" class="box" /><text x="573.0" y="75.0" class="boxlabel">1</text><rect x="448.0" y="93.0" width="41.0" height="88.0" class="box" /><text x="448.0" y="89.0" class="boxlabel">2</text><rect x="284.0" y="52.0" width="65.0" height="126.0" class="box" /><text x="284.0" y="48.0" class="boxlabel">3</text><rect x="52.0" y="76.0" width="70.0" height="88.0" class="box" /><text x="52.0" y="72.0" class="boxlabel">4</text><rect x="134.0" y="470.0" width="21.0" height="88.0" class="box" /><text x="134.0" y="466.0" class="boxlabel">5</text><rect x="94.0" y="567.0" width="20.0" height="67.0" class="box" /><text x="94.0" y="563.0" class="boxlabel">6</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> じゃあ犯人は呪霊？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> まぁそうですね <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> あの少年がやった可能性もなくはないですが <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> そちらの身元特定は警察のー <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> おべおべん <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> とぅ～ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.13.55.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 727 / 706;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.13.55.jpeg" alt="WhatsApp Image 2026-07-22 at 19.13.55.jpeg" />
+        <svg viewBox="0 0 727 706" preserveAspectRatio="none">
+          <rect x="597.0" y="4.0" width="22.0" height="99.0" class="box" /><text x="597.0" y="10" class="boxlabel">1</text><rect x="507.0" y="77.0" width="28.0" height="67.0" class="box" /><text x="507.0" y="73.0" class="boxlabel">2</text><rect x="597.0" y="318.0" width="22.0" height="63.0" class="box" /><text x="597.0" y="314.0" class="boxlabel">3</text><rect x="547.0" y="521.0" width="51.0" height="77.0" class="box" /><text x="547.0" y="517.0" class="boxlabel">4</text><rect x="79.0" y="63.0" width="84.0" height="100.0" class="box" /><text x="79.0" y="59.0" class="boxlabel">5</text><rect x="131.0" y="311.0" width="51.0" height="91.0" class="box" /><text x="131.0" y="307.0" class="boxlabel">6</text><rect x="83.0" y="528.0" width="94.0" height="95.0" class="box" /><text x="83.0" y="524.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 重ねて一応 <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 何で？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ははっ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 子供じゃないんだ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 術師だけの世界を作るんだ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 意味分かんねー <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 誰でも彼でも理解して欲しいとは思わないさ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.14.06.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 726 / 745;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.14.06.jpeg" alt="WhatsApp Image 2026-07-22 at 19.14.06.jpeg" />
+        <svg viewBox="0 0 726 745" preserveAspectRatio="none">
+          <rect x="596.0" y="74.0" width="75.0" height="128.0" class="box" /><text x="596.0" y="70.0" class="boxlabel">1</text><rect x="393.0" y="74.0" width="74.0" height="178.0" class="box" /><text x="393.0" y="70.0" class="boxlabel">2</text><rect x="290.0" y="123.0" width="46.0" height="92.0" class="box" /><text x="290.0" y="119.0" class="boxlabel">3</text><rect x="62.0" y="94.0" width="70.0" height="125.0" class="box" /><text x="62.0" y="90.0" class="boxlabel">4</text><rect x="605.0" y="436.0" width="58.0" height="106.0" class="box" /><text x="605.0" y="432.0" class="boxlabel">5</text><rect x="387.0" y="447.0" width="58.0" height="108.0" class="box" /><text x="387.0" y="443.0" class="boxlabel">6</text><rect x="291.0" y="427.0" width="28.0" height="112.0" class="box" /><text x="291.0" y="423.0" class="boxlabel">7</text><rect x="73.0" y="433.0" width="71.0" height="107.0" class="box" /><text x="73.0" y="429.0" class="boxlabel">8</text><rect x="59.0" y="581.0" width="46.0" height="141.0" class="box" /><text x="59.0" y="577.0" class="boxlabel">9</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 親だけ特別というわけにはいかないだろ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> それにもう私の家族はあの人達だけじゃない <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> んなこと聞いてねえ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 意味ない殺しはしねぇんじゃなかったのか！？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 意味はある意義もね <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 大義ですらある <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> ねぇよ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> 非術師殺して術師だけの世界を作る！？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">9</span> 無理に決まってんだろ！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.14.18.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 707 / 767;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.14.18.jpeg" alt="WhatsApp Image 2026-07-22 at 19.14.18.jpeg" />
+        <svg viewBox="0 0 707 767" preserveAspectRatio="none">
+          <rect x="519.0" y="44.0" width="70.0" height="146.0" class="box" /><text x="519.0" y="40.0" class="boxlabel">1</text><rect x="108.0" y="86.0" width="55.0" height="49.0" class="box" /><text x="108.0" y="82.0" class="boxlabel">2</text><rect x="80.0" y="218.0" width="13.0" height="50.0" class="box" /><text x="80.0" y="214.0" class="boxlabel">3</text><rect x="543.0" y="604.0" width="56.0" height="123.0" class="box" /><text x="543.0" y="600.0" class="boxlabel">4</text><rect x="68.0" y="584.0" width="71.0" height="161.0" class="box" /><text x="68.0" y="580.0" class="boxlabel">5</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 君にならできるだろ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 悟 <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> いやいいやぁぁっ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 自分にできることを <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 他人には「できやしない」と言い聞かせるのか？ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.14.28.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 712 / 758;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.14.28.jpeg" alt="WhatsApp Image 2026-07-22 at 19.14.28.jpeg" />
+        <svg viewBox="0 0 712 758" preserveAspectRatio="none">
+          <rect x="533.0" y="22.0" width="109.0" height="151.0" class="box" /><text x="533.0" y="18.0" class="boxlabel">1</text><rect x="76.0" y="34.0" width="102.0" height="126.0" class="box" /><text x="76.0" y="30.0" class="boxlabel">2</text><rect x="583.0" y="365.0" width="83.0" height="99.0" class="box" /><text x="583.0" y="361.0" class="boxlabel">3</text><rect x="324.0" y="348.0" width="80.0" height="119.0" class="box" /><text x="324.0" y="344.0" class="boxlabel">4</text><rect x="62.0" y="362.0" width="125.0" height="150.0" class="box" /><text x="62.0" y="358.0" class="boxlabel">5</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 君は五条悟だから最強なのか？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 最強だから五条悟なのか？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 何が言いてぇんだよ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> もし私が君になれるのなら <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> この馬鹿げた理想も地に足が着くと思わないか？ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.14.43.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 707 / 765;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.14.43.jpeg" alt="WhatsApp Image 2026-07-22 at 19.14.43.jpeg" />
+        <svg viewBox="0 0 707 765" preserveAspectRatio="none">
+          <rect x="561.0" y="39.0" width="71.0" height="128.0" class="box" /><text x="561.0" y="35.0" class="boxlabel">1</text><rect x="34.0" y="26.0" width="145.0" height="147.0" class="box" /><text x="34.0" y="22.0" class="boxlabel">2</text><rect x="196.0" y="249.0" width="83.0" height="99.0" class="box" /><text x="196.0" y="245.0" class="boxlabel">3</text><rect x="57.0" y="575.0" width="58.0" height="139.0" class="box" /><text x="57.0" y="571.0" class="boxlabel">4</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 俺が救えるのは <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 他人に救われる準備がある奴だけだ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 盤星教は解体されたハズだが？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 別の団体でも根っこは同じさ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.15.07.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 693 / 803;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.15.07.jpeg" alt="WhatsApp Image 2026-07-22 at 19.15.07.jpeg" />
+        <svg viewBox="0 0 693 803" preserveAspectRatio="none">
+          <rect x="524.0" y="0.0" width="58.0" height="75.0" class="box" /><text x="524.0" y="10" class="boxlabel">1</text><rect x="97.0" y="107.0" width="73.0" height="86.0" class="box" /><text x="97.0" y="103.0" class="boxlabel">2</text><rect x="558.0" y="351.0" width="35.0" height="107.0" class="box" /><text x="558.0" y="347.0" class="boxlabel">3</text><rect x="76.0" y="359.0" width="24.0" height="102.0" class="box" /><text x="76.0" y="355.0" class="boxlabel">4</text><rect x="544.0" y="610.0" width="98.0" height="113.0" class="box" /><text x="544.0" y="606.0" class="boxlabel">5</text><rect x="65.0" y="610.0" width="55.0" height="151.0" class="box" /><text x="65.0" y="606.0" class="boxlabel">6</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 伏黒 <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 恵君だよね <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> アンタ誰？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> っていうか <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 何その顔 <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> いやソックリだなと <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.15.36.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 680 / 765;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.15.36.jpeg" alt="WhatsApp Image 2026-07-22 at 19.15.36.jpeg" />
+        <svg viewBox="0 0 680 765" preserveAspectRatio="none">
+          <rect x="549.0" y="96.0" width="69.0" height="152.0" class="box" /><text x="549.0" y="92.0" class="boxlabel">1</text><rect x="424.0" y="137.0" width="54.0" height="171.0" class="box" /><text x="424.0" y="133.0" class="boxlabel">2</text><rect x="247.0" y="494.0" width="22.0" height="85.0" class="box" /><text x="247.0" y="490.0" class="boxlabel">3</text><rect x="102.0" y="512.0" width="74.0" height="173.0" class="box" /><text x="102.0" y="508.0" class="boxlabel">4</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 黒閃を経て理解したんだ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 俺の本当の．．．剥き出しの魂を！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 驚いたよ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> オマエが自分探しをするタイプだったとはな <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.15.54.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 702 / 802;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.15.54.jpeg" alt="WhatsApp Image 2026-07-22 at 19.15.54.jpeg" />
+        <svg viewBox="0 0 702 802" preserveAspectRatio="none">
+          <rect x="605.0" y="44.0" width="74.0" height="129.0" class="box" /><text x="605.0" y="40.0" class="boxlabel">1</text><rect x="92.0" y="104.0" width="40.0" height="125.0" class="box" /><text x="92.0" y="100.0" class="boxlabel">2</text><rect x="585.0" y="278.0" width="92.0" height="218.0" class="box" /><text x="585.0" y="274.0" class="boxlabel">3</text><rect x="103.0" y="312.0" width="42.0" height="177.0" class="box" /><text x="103.0" y="308.0" class="boxlabel">4</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 俺の攻撃が通らない！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 呪霊として <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 変身前とは別次元の存在に <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 成ったんだ！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.16.11.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 701 / 737;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.16.11.jpeg" alt="WhatsApp Image 2026-07-22 at 19.16.11.jpeg" />
+        <svg viewBox="0 0 701 737" preserveAspectRatio="none">
+          <rect x="570.0" y="22.0" width="77.0" height="177.0" class="box" /><text x="570.0" y="18.0" class="boxlabel">1</text><rect x="405.0" y="28.0" width="97.0" height="150.0" class="box" /><text x="405.0" y="24.0" class="boxlabel">2</text><rect x="294.0" y="35.0" width="62.0" height="128.0" class="box" /><text x="294.0" y="31.0" class="boxlabel">3</text><rect x="54.0" y="22.0" width="189.0" height="205.0" class="box" /><text x="54.0" y="18.0" class="boxlabel">4</text><rect x="491.0" y="192.0" width="87.0" height="85.0" class="box" /><text x="491.0" y="188.0" class="boxlabel">5</text><rect x="405.0" y="332.0" width="113.0" height="10.0" class="box" /><text x="405.0" y="328.0" class="boxlabel">6</text><rect x="567.0" y="366.0" width="76.0" height="178.0" class="box" /><text x="567.0" y="362.0" class="boxlabel">7</text><rect x="307.0" y="362.0" width="153.0" height="177.0" class="box" /><text x="307.0" y="358.0" class="boxlabel">8</text><rect x="76.0" y="362.0" width="101.0" height="149.0" class="box" /><text x="76.0" y="358.0" class="boxlabel">9</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> Ｔさんって大学でどんな勉強してたんですか？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 機械学習ですね特に情報幾何 <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 僕は宇宙工学です <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> くぁ～～～何だよ！！やるじゃん！ジャンプ編集部！！社会人デビューの文系集団だと思っててマジゴメンな！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> どーせ僕はなんちなですよ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 「時になったです。 <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> Ｔさんって山中さん（初代担当）の後輩ですか？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> ですけど僕見た目がプロレスラーみたいだしあんまり目上に付度しないんでちょっと避けられてましたね <span class="conf">(conf 1.00)</span></li><li><span class="idx">9</span> くぁ～っとほんっとしょーもねぇなアイツは！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 19.16.49.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 697 / 816;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 19.16.49.jpeg" alt="WhatsApp Image 2026-07-22 at 19.16.49.jpeg" />
+        <svg viewBox="0 0 697 816" preserveAspectRatio="none">
+          <rect x="313.0" y="267.0" width="89.0" height="176.0" class="box" /><text x="313.0" y="263.0" class="boxlabel">1</text><rect x="74.0" y="314.0" width="74.0" height="129.0" class="box" /><text x="74.0" y="310.0" class="boxlabel">2</text><rect x="437.0" y="535.0" width="49.0" height="255.0" class="box" /><text x="437.0" y="531.0" class="boxlabel">3</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 理解したんだ俺の本当の．．．剥き出しの魂を！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> そういうことか！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> コイツはもう。 <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.13.41.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 732 / 787;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.13.41.jpeg" alt="WhatsApp Image 2026-07-22 at 23.13.41.jpeg" />
+        <svg viewBox="0 0 732 787" preserveAspectRatio="none">
+          <rect x="535.0" y="505.0" width="66.0" height="108.0" class="box" /><text x="535.0" y="501.0" class="boxlabel">1</text><rect x="363.0" y="468.0" width="151.0" height="119.0" class="box" /><text x="363.0" y="464.0" class="boxlabel">2</text><rect x="269.0" y="462.0" width="28.0" height="77.0" class="box" /><text x="269.0" y="458.0" class="boxlabel">3</text><rect x="631.0" y="466.0" width="65.0" height="269.0" class="box" /><text x="631.0" y="462.0" class="boxlabel">4</text><rect x="355.0" y="609.0" width="38.0" height="65.0" class="box" /><text x="355.0" y="605.0" class="boxlabel">5</text><rect x="242.0" y="561.0" width="63.0" height="109.0" class="box" /><text x="242.0" y="557.0" class="boxlabel">6</text><rect x="88.0" y="664.0" width="87.0" height="90.0" class="box" /><text x="88.0" y="660.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> おお <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> どうだ！！オレの魂の料理がチンチクリンの魔力をパワーアップさせたぞォォ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> おあああ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> す．．．すげえええ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> おそまっ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 料理長ォォォ一生ついていきまァァァッす！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 何人たりとも我がゴハンに触れることなかれ．．．！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.13.58.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 721 / 707;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.13.58.jpeg" alt="WhatsApp Image 2026-07-22 at 23.13.58.jpeg" />
+        <svg viewBox="0 0 721 707" preserveAspectRatio="none">
+          <rect x="579.0" y="88.0" width="90.0" height="144.0" class="box" /><text x="579.0" y="84.0" class="boxlabel">1</text><rect x="464.0" y="492.0" width="115.0" height="132.0" class="box" /><text x="464.0" y="488.0" class="boxlabel">2</text><rect x="189.0" y="82.0" width="125.0" height="167.0" class="box" /><text x="189.0" y="78.0" class="boxlabel">3</text><rect x="26.0" y="338.0" width="52.0" height="308.0" class="box" /><text x="26.0" y="334.0" class="boxlabel">4</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 「オマエ自身がかかって来い」だぁ．．．．．．！？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> あんな人を人とも思ってねークソヤローに <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 屍体操ってオレは見てるだけで勝つーそれがオレの戦い方なんだよバァカ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 負けたくねぇ．．．！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.14.08.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 687 / 756;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.14.08.jpeg" alt="WhatsApp Image 2026-07-22 at 23.14.08.jpeg" />
+        <svg viewBox="0 0 687 756" preserveAspectRatio="none">
+          <rect x="640.0" y="32.0" width="23.0" height="207.0" class="box" /><text x="640.0" y="28.0" class="boxlabel">1</text><rect x="453.0" y="6.0" width="33.0" height="184.0" class="box" /><text x="453.0" y="10" class="boxlabel">2</text><rect x="29.0" y="53.0" width="70.0" height="122.0" class="box" /><text x="29.0" y="49.0" class="boxlabel">3</text><rect x="506.0" y="346.0" width="133.0" height="149.0" class="box" /><text x="506.0" y="342.0" class="boxlabel">4</text><rect x="61.0" y="575.0" width="66.0" height="169.0" class="box" /><text x="61.0" y="571.0" class="boxlabel">5</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> ．．．．．．チクショー．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> くく勝てな．．．かった。 <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> オマエの戦いに横槍を入れてすまなかった．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 今死ぬには惜しい男だと思ってしまってな <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 赦せ．．．！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.14.19.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 708 / 807;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.14.19.jpeg" alt="WhatsApp Image 2026-07-22 at 23.14.19.jpeg" />
+        <svg viewBox="0 0 708 807" preserveAspectRatio="none">
+          <rect x="458.0" y="94.0" width="71.0" height="124.0" class="box" /><text x="458.0" y="90.0" class="boxlabel">1</text><rect x="651.0" y="221.0" width="34.0" height="55.0" class="box" /><text x="651.0" y="217.0" class="boxlabel">2</text><rect x="461.0" y="241.0" width="30.0" height="80.0" class="box" /><text x="461.0" y="237.0" class="boxlabel">3</text><rect x="602.0" y="378.0" width="75.0" height="116.0" class="box" /><text x="602.0" y="374.0" class="boxlabel">4</text><rect x="537.0" y="544.0" width="66.0" height="132.0" class="box" /><text x="537.0" y="540.0" class="boxlabel">5</text><rect x="592.0" y="741.0" width="21.0" height="66.0" class="box" /><text x="592.0" y="737.0" class="boxlabel">6</text><rect x="171.0" y="541.0" width="128.0" height="267.0" class="box" /><text x="171.0" y="537.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> オマエ魔法帝になると言ったな．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 魔法帝になって <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> オマエら全員黙らせてやる！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> はぁ！？魔法帝になるだぁ～～～！？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> オマエごときかなれるワケねぇだろ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> ．．．では．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> この私ともライバルだな <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.14.33.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 737 / 771;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.14.33.jpeg" alt="WhatsApp Image 2026-07-22 at 23.14.33.jpeg" />
+        <svg viewBox="0 0 737 771" preserveAspectRatio="none">
+          <rect x="563.0" y="38.0" width="132.0" height="149.0" class="box" /><text x="563.0" y="34.0" class="boxlabel">1</text><rect x="384.0" y="98.0" width="24.0" height="61.0" class="box" /><text x="384.0" y="94.0" class="boxlabel">2</text><rect x="154.0" y="25.0" width="21.0" height="85.0" class="box" /><text x="154.0" y="21.0" class="boxlabel">3</text><rect x="156.0" y="156.0" width="20.0" height="57.0" class="box" /><text x="156.0" y="152.0" class="boxlabel">4</text><rect x="74.0" y="89.0" width="45.0" height="82.0" class="box" /><text x="74.0" y="85.0" class="boxlabel">5</text><rect x="630.0" y="268.0" width="59.0" height="142.0" class="box" /><text x="630.0" y="264.0" class="boxlabel">6</text><rect x="368.0" y="543.0" width="81.0" height="197.0" class="box" /><text x="368.0" y="539.0" class="boxlabel">7</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 家快さはオーマエの一番の武器だろうか今静さも持て <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> リア．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> 冷静に．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> ハイ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> ですよね．．．．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 冷静に <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> ムチャクチャします．．．！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.14.48.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 725 / 807;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.14.48.jpeg" alt="WhatsApp Image 2026-07-22 at 23.14.48.jpeg" />
+        <svg viewBox="0 0 725 807" preserveAspectRatio="none">
+          <rect x="615.0" y="9.0" width="46.0" height="143.0" class="box" /><text x="615.0" y="10" class="boxlabel">1</text><rect x="29.0" y="78.0" width="86.0" height="137.0" class="box" /><text x="29.0" y="74.0" class="boxlabel">2</text><rect x="204.0" y="538.0" width="30.0" height="31.0" class="box" /><text x="204.0" y="534.0" class="boxlabel">3</text><rect x="599.0" y="531.0" width="63.0" height="199.0" class="box" /><text x="599.0" y="527.0" class="boxlabel">4</text><rect x="63.0" y="552.0" width="76.0" height="229.0" class="box" /><text x="63.0" y="548.0" class="boxlabel">5</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> ターゲットではなかったが．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 今ここで殺す！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ！！ <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 水創成魔法 <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> 海竜の巣〟 <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.14.59.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 677 / 737;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.14.59.jpeg" alt="WhatsApp Image 2026-07-22 at 23.14.59.jpeg" />
+        <svg viewBox="0 0 677 737" preserveAspectRatio="none">
+          <rect x="494.0" y="0.0" width="21.0" height="84.0" class="box" /><text x="494.0" y="10" class="boxlabel">1</text><rect x="196.0" y="86.0" width="46.0" height="124.0" class="box" /><text x="196.0" y="82.0" class="boxlabel">2</text><rect x="17.0" y="81.0" width="17.0" height="75.0" class="box" /><text x="17.0" y="77.0" class="boxlabel">3</text><rect x="15.0" y="663.0" width="46.0" height="73.0" class="box" /><text x="15.0" y="659.0" class="boxlabel">4</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> ．．．では．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> 止めといこうか―．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ．．．うそ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> ―この魔力は．．． <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+    <section class="card">
+      <h2>WhatsApp Image 2026-07-22 at 23.15.09.jpeg</h2>
+      <div class="imgwrap" style="aspect-ratio: 726 / 780;">
+        <img src="test_pages/WhatsApp Image 2026-07-22 at 23.15.09.jpeg" alt="WhatsApp Image 2026-07-22 at 23.15.09.jpeg" />
+        <svg viewBox="0 0 726 780" preserveAspectRatio="none">
+          <rect x="41.0" y="0.0" width="112.0" height="105.0" class="box" /><text x="41.0" y="10" class="boxlabel">1</text><rect x="667.0" y="179.0" width="20.0" height="70.0" class="box" /><text x="667.0" y="175.0" class="boxlabel">2</text><rect x="677.0" y="291.0" width="13.0" height="45.0" class="box" /><text x="677.0" y="287.0" class="boxlabel">3</text><rect x="564.0" y="196.0" width="77.0" height="100.0" class="box" /><text x="564.0" y="192.0" class="boxlabel">4</text><rect x="420.0" y="195.0" width="82.0" height="83.0" class="box" /><text x="420.0" y="191.0" class="boxlabel">5</text><rect x="295.0" y="208.0" width="47.0" height="82.0" class="box" /><text x="295.0" y="204.0" class="boxlabel">6</text><rect x="45.0" y="180.0" width="67.0" height="127.0" class="box" /><text x="45.0" y="176.0" class="boxlabel">7</text><rect x="180.0" y="353.0" width="72.0" height="88.0" class="box" /><text x="180.0" y="349.0" class="boxlabel">8</text><rect x="650.0" y="638.0" width="27.0" height="109.0" class="box" /><text x="650.0" y="634.0" class="boxlabel">9</text><rect x="578.0" y="570.0" width="65.0" height="150.0" class="box" /><text x="578.0" y="566.0" class="boxlabel">10</text><rect x="65.0" y="560.0" width="97.0" height="193.0" class="box" /><text x="65.0" y="556.0" class="boxlabel">11</text>
+        </svg>
+      </div>
+      <ol class="regions">
+        <li><span class="idx">1</span> 超複合魔法．．．とでも言うべきか．．．？ <span class="conf">(conf 1.00)</span></li><li><span class="idx">2</span> オネホホホ <span class="conf">(conf 1.00)</span></li><li><span class="idx">3</span> ．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">4</span> 刀を合わせるというのも．．．良いものですねぇ <span class="conf">(conf 1.00)</span></li><li><span class="idx">5</span> ま男も捨てたもんじゃないっスね <span class="conf">(conf 1.00)</span></li><li><span class="idx">6</span> 能力だけは認めてやる <span class="conf">(conf 1.00)</span></li><li><span class="idx">7</span> 違う団とはやはり相いれないものだもの <span class="conf">(conf 1.00)</span></li><li><span class="idx">8</span> 協力なんざ二度とごめんだな <span class="conf">(conf 1.00)</span></li><li><span class="idx">9</span> ．．．だが．．． <span class="conf">(conf 1.00)</span></li><li><span class="idx">10</span> 我ら九つの魔法騎士団は <span class="conf">(conf 1.00)</span></li><li><span class="idx">11</span> ただ一つクローバー王国の平和の為にある．．．！！ <span class="conf">(conf 1.00)</span></li>
+      </ol>
+    </section>
+    
+</div>
+</body>
+</html>
