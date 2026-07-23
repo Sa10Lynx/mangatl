@@ -3,6 +3,10 @@
 
 ---
 
+- **2026-07-23** — Spec 00 go/no-go: **go**. Manually spot-checked `inference/spot_check_report.html`
+  against all 30 source pages — detection accuracy is high, almost every Japanese text block is boxed
+  correctly. Text detection/OCR quality is good enough to proceed to week 2 (backend skeleton).
+
 - **2026-07-22** — Adopted a formalized 4-role pipeline per feature spec: Planner (plans, no code) →
   Test writer → Coder → Reviewer, with a human approval gate after every single stage, not just at
   final commit. Reason: wanted distinct planning/testing/coding/reviewing roles without giving up the
