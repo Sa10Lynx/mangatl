@@ -145,6 +145,34 @@ describe("validateMessage -- CANDIDATE_FOUND messages", () => {
     message.bbox = { ...message.bbox, extra: true } as unknown as CandidateFoundMessage["bbox"];
     expectInvalid(message);
   });
+
+  // Regression: typeof NaN === "number" and typeof Infinity === "number" are both true in JS, so a
+  // bare `typeof value.x === "number"` check does NOT reject these -- defeating this module's
+  // fail-closed purpose at the content-script/background trust boundary. isValidRect and
+  // isValidImageDescriptor must additionally check Number.isFinite(...) for every numeric field.
+  it("rejects a message where a bbox field is NaN", () => {
+    const message = validCandidateFoundMessage();
+    message.bbox = { ...message.bbox, width: NaN };
+    expectInvalid(message);
+  });
+
+  it("rejects a message where a bbox field is Infinity", () => {
+    const message = validCandidateFoundMessage();
+    message.bbox = { ...message.bbox, height: Infinity };
+    expectInvalid(message);
+  });
+
+  it("rejects a message where a bbox field is -Infinity", () => {
+    const message = validCandidateFoundMessage();
+    message.bbox = { ...message.bbox, x: -Infinity };
+    expectInvalid(message);
+  });
+
+  it("rejects a message where descriptor.width and descriptor.height are NaN", () => {
+    const message = validCandidateFoundMessage();
+    message.descriptor = { ...message.descriptor, width: NaN, height: NaN };
+    expectInvalid(message);
+  });
 });
 
 describe("validateMessage -- FETCH_RESULT messages", () => {

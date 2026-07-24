@@ -127,6 +127,35 @@ describe("isCandidateImage", () => {
     expect(isCandidateImage(img)).toBe(true);
     expect(isCandidateImage(img, { blockedContainerHints: ["carousel"] })).toBe(false);
   });
+
+  // Regression: Infinity / Infinity === NaN, and `NaN < min || NaN > max` is false for any
+  // threshold, so without an explicit finiteness guard the aspect-ratio check silently no-ops
+  // instead of rejecting an Infinity-dimension descriptor.
+  it("rejects a descriptor with Infinity width and height (NaN aspect ratio must not slip through)", () => {
+    const infinite = descriptor({ width: Infinity, height: Infinity });
+    expect(isCandidateImage(infinite)).toBe(false);
+  });
+
+  it("rejects a descriptor with NaN width", () => {
+    const nanWidth = descriptor({ width: NaN });
+    expect(isCandidateImage(nanWidth)).toBe(false);
+  });
+
+  it("rejects a descriptor with NaN height", () => {
+    const nanHeight = descriptor({ height: NaN });
+    expect(isCandidateImage(nanHeight)).toBe(false);
+  });
+
+  // Regression: hasBlockedHint tokenized the input containerHints but NOT the blockedList side, so
+  // a multi-word custom blocklist entry like "google-ad" never matched a tokenized input hint like
+  // "google-ad-slot" (tokens: ["google","ad","slot"]) -- contradicting the module's own
+  // token-based-matching docstring. Both sides must go through the same tokenize() call.
+  it("matches a multi-word custom blockedContainerHints entry against its tokenized form", () => {
+    const img = descriptor({ containerHints: ["google-ad-slot"] });
+    expect(
+      isCandidateImage(img, { blockedContainerHints: ["google-ad"] })
+    ).toBe(false);
+  });
 });
 
 describe("filterCandidates", () => {

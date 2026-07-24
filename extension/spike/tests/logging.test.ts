@@ -192,6 +192,16 @@ describe("resolveDumpPath -- containment under LOCAL_ONLY_DUMP_DIR", () => {
     ["a unix absolute path", "/etc/passwd"],
     ["a windows absolute path with drive letter", "C:\\Windows\\evil.dll"],
     ["a windows-style absolute path with forward slashes", "C:/Windows/evil.dll"],
+    // Regression: a disguised ".. "-style segment (".." plus a trailing space) is not caught by a
+    // naive `segment === ".."` check, even though Windows silently normalizes trailing dots/spaces
+    // away at the real filesystem call, turning it back into an ordinary ".." traversal.
+    ["a disguised '.. '-style segment (trailing space normalized away by Windows)", ".. /escape.bin"],
+    // Regression: a drive-relative path ("C:evil.txt") is valid Windows syntax meaning "relative to
+    // the current directory on drive C" and is still capable of traversal, but was not classified
+    // as absolute by the old /^[a-zA-Z]:[\\/]/ pattern (which required a separator right after the
+    // colon).
+    ["a drive-relative path with no separator after the colon", "C:evil.txt"],
+    ["a drive-relative path with a traversal segment after the colon", "C:../secret.txt"],
   ])("throws PathTraversalError for %s and does not return a path", (_label, filename) => {
     expect(() => resolveDumpPath(LOCAL_ONLY_DUMP_DIR, filename)).toThrow(PathTraversalError);
   });

@@ -44,6 +44,13 @@ export async function fetchImageBytes(url: string, fetchImpl: FetchLike): Promis
     return { ok: false, reason: "non-2xx", status: response.status };
   }
 
-  const buffer = await response.arrayBuffer();
-  return { ok: true, bytes: new Uint8Array(buffer) };
+  try {
+    const buffer = await response.arrayBuffer();
+    return { ok: true, bytes: new Uint8Array(buffer) };
+  } catch {
+    // A body-read failure (e.g. a connection reset mid-download) is realistic for large images and
+    // must be classified the same way as a thrown fetchImpl error, per this function's documented
+    // contract of always resolving to a FetchOutcome, never rejecting.
+    return { ok: false, reason: "network" };
+  }
 }

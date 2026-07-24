@@ -60,9 +60,13 @@ export class PathTraversalError extends Error {
   }
 }
 
-// Matches an absolute Windows path with a drive letter, either backslash- or forward-slash-style
-// (e.g. "C:\Windows\evil.dll" or "C:/Windows/evil.dll").
-const WINDOWS_DRIVE_LETTER_PATTERN = /^[a-zA-Z]:[\\/]/;
+// Matches ANY drive-letter-colon prefix (e.g. "C:\Windows\evil.dll", "C:/Windows/evil.dll", or a
+// drive-RELATIVE path like "C:evil.txt"/"C:../secret.txt" -- valid Windows syntax meaning
+// "relative to the current directory on drive C", still capable of traversal). Deliberately broader
+// than requiring a separator immediately after the colon: ANY drive-letter-colon prefix is treated
+// as an unsafe/ambiguous path outside this module's plain relative-segment model, not just the
+// slash-qualified form.
+const WINDOWS_DRIVE_LETTER_PATTERN = /^[a-zA-Z]:/;
 
 function isAbsolutePath(filename: string): boolean {
   return (
@@ -79,8 +83,9 @@ function isAbsolutePath(filename: string): boolean {
  *
  * Throws PathTraversalError (and never returns a path) for any attempt to escape baseDir: relative
  * ".." traversal (including one that first dips into a subdirectory), backslash-style traversal,
- * and absolute paths (Unix-style, or Windows-style with a drive letter, whether using backslashes
- * or forward slashes).
+ * disguised dots/spaces-only segments that Windows would normalize back into a ".." at the real
+ * filesystem call (e.g. ".. "), and absolute paths (Unix-style, Windows-style with a drive letter
+ * whether using backslashes or forward slashes, or a drive-relative path like "C:evil.txt").
  */
 export function resolveDumpPath(baseDir: string, filename: string): string {
   if (isAbsolutePath(filename)) {
@@ -95,16 +100,27 @@ export function resolveDumpPath(baseDir: string, filename: string): string {
 
   const resolvedSegments: string[] = [];
   for (const segment of segments) {
-    if (segment === "..") {
-      if (resolvedSegments.length === 0) {
-        throw new PathTraversalError(
-          `path traversal outside of ${baseDir}: ${filename}`
-        );
-      }
-      resolvedSegments.pop();
-    } else {
-      resolvedSegments.push(segment);
+    // Reject any segment composed ENTIRELY of dots and/or spaces (length >= 2) as an unconditional
+    // traversal attempt, rather than only checking for an exact ".." string match.
+    //
+    // Why: Win32 silently strips TRAILING dots and spaces from a path segment once it actually
+    // reaches the real filesystem, so a disguised segment like ".. " ("..": two dots plus a
+    // trailing space) is NOT equal to the literal string ".." at this JS-level string-comparison
+    // layer, yet gets normalized right back to ".." the moment a real Windows filesystem call
+    // processes it -- letting it slip past a naive `segment === ".."` check and potentially escape
+    // baseDir once resolveDumpPath's caller actually writes to the resolved path on Windows.
+    //
+    // No legitimate dump filename ever needs a dots/spaces-only segment (real filenames here look
+    // like "image-<hash>.bin" or "<date>/image-<hash>.bin"), so rather than trying to precisely
+    // replicate every permutation of Win32's trailing-dot/space trim rule (which is subtle and easy
+    // to get wrong -- exactly the kind of gap that's easy to reintroduce), it's simplest and safest
+    // to reject the whole class of dots/spaces-only segments outright.
+    if (/^[. ]{2,}$/.test(segment)) {
+      throw new PathTraversalError(
+        `path traversal outside of ${baseDir}: ${filename}`
+      );
     }
+    resolvedSegments.push(segment);
   }
 
   if (resolvedSegments.length === 0) {

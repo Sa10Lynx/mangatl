@@ -124,6 +124,26 @@ describe("fetchImageBytes -- non-2xx responses", () => {
   });
 });
 
+describe("fetchImageBytes -- arrayBuffer() body-read failures", () => {
+  // Regression: only the fetchImpl(url) call was wrapped in try/catch; a thrown error from the
+  // subsequent response.arrayBuffer() read (e.g. a connection reset mid-download, a realistic
+  // failure for large images) was NOT caught, so the function's returned promise would reject
+  // instead of resolving to {ok: false, reason: ...} as documented.
+  it("resolves to {ok: false, reason: \"network\"} when response.arrayBuffer() rejects, rather than rejecting the returned promise", async () => {
+    const fetchImpl = vi.fn(async () => ({
+      ok: true,
+      status: 200,
+      arrayBuffer: async () => {
+        throw new Error("connection reset");
+      },
+    }));
+
+    const result = await fetchImageBytes("https://reader.example/img.jpg", fetchImpl);
+
+    expect(result).toEqual({ ok: false, reason: "network" });
+  });
+});
+
 describe("fetchImageBytes -- blob: URLs", () => {
   it("short-circuits a blob: URL to {ok: false, reason: \"blob-url\"} WITHOUT calling the injected fetch", async () => {
     const fetchImpl = vi.fn();

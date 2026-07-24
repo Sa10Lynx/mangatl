@@ -36,10 +36,10 @@ function isValidRect(value: unknown): value is Rect {
     return false;
   }
   return (
-    typeof value.x === "number" &&
-    typeof value.y === "number" &&
-    typeof value.width === "number" &&
-    typeof value.height === "number"
+    Number.isFinite(value.x) &&
+    Number.isFinite(value.y) &&
+    Number.isFinite(value.width) &&
+    Number.isFinite(value.height)
   );
 }
 
@@ -53,10 +53,10 @@ function isValidImageDescriptor(value: unknown): value is ImageDescriptor {
   if (typeof value.url !== "string") {
     return false;
   }
-  if (typeof value.width !== "number") {
+  if (!Number.isFinite(value.width)) {
     return false;
   }
-  if (typeof value.height !== "number") {
+  if (!Number.isFinite(value.height)) {
     return false;
   }
   if ("containerHints" in value) {

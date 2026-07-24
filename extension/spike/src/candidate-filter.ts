@@ -43,7 +43,7 @@ function hasBlockedHint(containerHints: string[] | undefined, blockedList: strin
   if (!containerHints || containerHints.length === 0) {
     return false;
   }
-  const blockedTokens = new Set(blockedList.map((hint) => hint.toLowerCase()));
+  const blockedTokens = new Set(blockedList.flatMap((hint) => tokenize(hint)));
   for (const hint of containerHints) {
     for (const token of tokenize(hint)) {
       if (blockedTokens.has(token)) {
@@ -59,6 +59,14 @@ export function isCandidateImage(
   options?: CandidateFilterOptions
 ): boolean {
   const opts: ResolvedOptions = { ...DEFAULT_OPTIONS, ...options };
+
+  // Reject non-finite dimensions (NaN or +/-Infinity) up front. Without this, Infinity/Infinity ==
+  // NaN, and `NaN < min || NaN > max` is false for any threshold, so the aspect-ratio guard below
+  // would silently no-op instead of rejecting -- regardless of what the size/aspect-ratio
+  // thresholds are set to.
+  if (!Number.isFinite(descriptor.width) || !Number.isFinite(descriptor.height)) {
+    return false;
+  }
 
   if (!(descriptor.width > opts.minWidth) || !(descriptor.height > opts.minHeight)) {
     return false;
