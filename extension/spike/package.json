@@ -1,0 +1,15 @@
+{
+  "name": "mangatl-extension-spike",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Spec 01 image-acquisition spike (extension/spike). Test-writer-stage scaffolding only -- module implementations under src/ are the coder stage's job.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.9"
+  }
+}

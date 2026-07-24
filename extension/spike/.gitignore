@@ -1,0 +1,5 @@
+node_modules/
+
+# Designated local-only path for logging.ts's opt-in raw-byte dump (CLAUDE.md invariant 3).
+# Anything written here is for manual review only and must never be committed.
+.local-only-dumps/
