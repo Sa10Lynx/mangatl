@@ -2,14 +2,18 @@
   "name": "mangatl-extension-spike",
   "private": true,
   "version": "0.0.0",
-  "description": "Spec 01 image-acquisition spike (extension/spike). Test-writer-stage scaffolding only -- module implementations under src/ are the coder stage's job.",
+  "description": "Spec 01 image-acquisition spike (extension/spike). Throwaway Manifest V3 extension proving image bytes can be reliably acquired from a manga reader page.",
   "type": "module",
   "scripts": {
+    "build": "esbuild src/content-script.ts --bundle --outfile=dist/content-script.js --format=iife --platform=browser --target=chrome100 && esbuild src/background.ts --bundle --outfile=dist/background.js --format=iife --platform=browser --target=chrome100",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@types/chrome": "^0.2.2",
     "@types/node": "^22.10.2",
+    "esbuild": "^0.21.5",
     "typescript": "^5.5.4",
     "vitest": "^2.1.9"
   }

@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "MangaTL Image Acquisition Spike",
+  "version": "0.0.1",
+  "description": "Spec 01 throwaway spike: prove a Chrome extension can reliably get raw image bytes off a manga reader page. No UI, console-log output only.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "MangaTL spike: scan this page for manga images"
+  },
+  "background": {
+    "service_worker": "dist/background.js"
+  }
+}
