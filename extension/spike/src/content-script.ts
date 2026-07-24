@@ -20,6 +20,27 @@ import type { CandidateFoundMessage } from "./types";
 // still treated as "new" and reported.
 const emittedUrls = new Set<string>();
 
+// Re-injection guard: background.ts's chrome.action.onClicked listener re-injects this file on
+// every toolbar click, with no tracking of "is this tab already scanning" (see background.ts). If
+// run() below executed a second time on the same page, it would create a brand-new emittedUrls Set
+// (losing the first injection's dedup memory, above) and a brand-new IntersectionObserver watching
+// the same <img> elements the first injection's still-live observer already watches (nothing here
+// ever calls disconnect() on that first observer) -- producing duplicate CANDIDATE_FOUND messages
+// and stacking observers. Both guard flag and observer reference live on `window` (rather than
+// module scope) because each `chrome.scripting.executeScript` injection of this file is evaluated
+// as a brand-new module instance -- a module-scope `let` would NOT persist across injections and
+// so could neither detect a repeat injection nor reach the prior injection's observer to disconnect
+// it. `window`, in contrast, is the same live object across re-injections into the same page, so
+// state stashed there does persist. This also naturally resets to `undefined` on a full page
+// navigation (a fresh `window` per page load), which is exactly the behavior we want: a new page's
+// DOM/observers are gone, so a re-scan on next click should be allowed.
+declare global {
+  interface Window {
+    __mangatlSpikeInjected?: boolean;
+    __mangatlSpikeObserver?: IntersectionObserver | null;
+  }
+}
+
 function passesCandidateFilter(result: ScanResult): boolean {
   return filterCandidates([result.descriptor]).length > 0;
 }
@@ -49,6 +70,21 @@ function sendCandidate(result: ScanResult): void {
 }
 
 function run(): void {
+  if (window.__mangatlSpikeInjected) {
+    console.warn(
+      "[mangatl-spike] content script already injected on this page; skipping duplicate scan " +
+        "(re-clicking the toolbar icon on the same page is a no-op until the page navigates)"
+    );
+    return;
+  }
+  window.__mangatlSpikeInjected = true;
+
+  // Defensive safety net: disconnect any observer left over on `window` from a prior injection of
+  // this page load. Should be unreachable given the guard above, but this is a one-line insurance
+  // policy against ever stacking two live observers on the same page.
+  window.__mangatlSpikeObserver?.disconnect();
+  window.__mangatlSpikeObserver = null;
+
   const initialResults = scanImages(document);
   console.info(`[mangatl-spike] initial scan found ${initialResults.length} <img> element(s)`);
 
@@ -59,7 +95,7 @@ function run(): void {
   // See dom-scan.ts's watchForLazyLoadedImages docstring for the known limitation: this only
   // catches images that swap in a real src as they scroll into view, not brand-new <img> nodes
   // added to the DOM after this point (e.g. infinite-scroll pagination).
-  watchForLazyLoadedImages(
+  window.__mangatlSpikeObserver = watchForLazyLoadedImages(
     initialResults.map((result) => result.element),
     sendCandidate,
     window

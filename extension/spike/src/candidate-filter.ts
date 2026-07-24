@@ -1,7 +1,8 @@
 /**
  * "Is this a manga panel vs. ad/logo/avatar" heuristic. Operates ONLY on an already-resolved
- * ImageDescriptor (real URL + final rendered dimensions + flattened container-hint tokens) --
- * reading data-src/lazy-load attributes is dom-scan.ts's job, out of scope here.
+ * ImageDescriptor (real URL + intrinsic bitmap dimensions (naturalWidth/naturalHeight), not
+ * CSS-rendered display size + flattened container-hint tokens) -- reading data-src/lazy-load
+ * attributes is dom-scan.ts's job, out of scope here.
  */
 import type { ImageDescriptor } from "./types";
 

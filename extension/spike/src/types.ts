@@ -8,7 +8,9 @@
  * and between capture-fallback's Rect and message-guard's Rect.
  */
 
-/** A candidate image already resolved to a real URL + final rendered CSS-pixel dimensions. */
+/** A candidate image already resolved to a real URL + intrinsic bitmap dimensions
+ * (naturalWidth/naturalHeight), not CSS-rendered display size -- see dom-scan.ts's
+ * buildImageDescriptor, which is what actually populates width/height. */
 export interface ImageDescriptor {
   url: string;
   width: number;
