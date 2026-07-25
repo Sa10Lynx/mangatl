@@ -27,11 +27,7 @@ Keep the two in sync if either changes.
    - Never log image bytes. Never write them to a database. Never use them for model training/fine-tuning.
    - Only OCR'd text + bounding-box geometry may be cached/stored long-term.
 
-4. **No scraping, no training on scanlation sites, no unlicensed manga hosting.**
-   - Do not write code that fetches from, mirrors, or trains on weebcentral/asurascans/similar sites.
-   - Glossary sources: AniList GraphQL API, MAL API, user-entered terms only.
-
-5. **Idempotency and spend caps are not optional, even in a "quick" spec.**
+4. **Idempotency and spend caps are not optional, even in a "quick" spec.**
    - Any endpoint that calls a paid provider (Modal, DeepL, LLM) needs an idempotency key and must check
      per-user/global spend limits before calling out.
 
@@ -56,7 +52,7 @@ that the extra spend is worth it.
 - Write tests before implementation. Show the test file before writing the implementation.
 - Keep diffs scoped to the current spec file only. Do not refactor unrelated code in the same task.
 - If a spec is ambiguous or missing an edge case, ask rather than guessing on anything touching
-  invariants 1–5 above. For everything else, pick the reasonable default and note the assumption.
+  invariants 1–4 above. For everything else, pick the reasonable default and note the assumption.
 - Reference `docs/architecture-v2.md` and `docs/decisions.md` for context before asking to
   re-explain something that's probably already answered there.
 - Run `make test` (or the relevant test command) before declaring a stage done.

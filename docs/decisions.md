@@ -3,6 +3,14 @@
 
 ---
 
+- **2026-07-25** — Removed CLAUDE.md/`.clinerules` invariant 4 ("no scraping, no unlicensed manga
+  hosting"), reversing the 2026-07-17 entry below. Reason: product direction is widening from a
+  manga-only translator to a general on-screen translator (manga, comics, news articles). Decided by
+  Tanush directly editing CLAUDE.md; the numbering references in both files were updated to match
+  (now 4 invariants, not 5). Scope of the wider pivot (renaming, architecture-v2.md, gameplan.md)
+  is intentionally NOT addressed yet — specs 00/01 are being finished under the original manga-spike
+  scope first, per an explicit decision to not fold in the bigger rework mid-spike.
+
 - **2026-07-23** — Spec 00 go/no-go: **go**. Manually spot-checked `inference/spot_check_report.html`
   against all 30 source pages — detection accuracy is high, almost every Japanese text block is boxed
   correctly. Text detection/OCR quality is good enough to proceed to week 2 (backend skeleton).
