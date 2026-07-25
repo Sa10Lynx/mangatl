@@ -3,6 +3,12 @@
 
 ---
 
+- **2026-07-25** — Spec 01's manual-verification site scope widened from a fixed MANGA Plus + VIZ
+  pair to an open list (still including those two, plus e.g. Google Photos, news sites). Reason:
+  matches the same on-screen-translator direction as the invariant-4 removal below — useful to learn
+  now whether `candidate-filter.ts`'s heuristics generalize beyond manga-reader DOM patterns.
+  `extension/spike/README.md` and `SITE_NOTES.md` updated accordingly.
+
 - **2026-07-25** — Removed CLAUDE.md/`.clinerules` invariant 4 ("no scraping, no unlicensed manga
   hosting"), reversing the 2026-07-17 entry below. Reason: product direction is widening from a
   manga-only translator to a general on-screen translator (manga, comics, news articles). Decided by

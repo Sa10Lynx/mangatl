@@ -119,10 +119,17 @@ checklist below exists specifically to validate (or invalidate) them:
    inspection, add temporary instrumentation locally and remove it again -- do not commit an
    enabled dump path or an added permission.
 
-## Manual test checklist (MANGA Plus + VIZ)
+## Manual test checklist (open site scope)
 
-Run this against **both** target sites. For each site, note the answers (in `SITE_NOTES.md`, see
-below) to:
+Testing scope is intentionally open, not limited to two fixed sites (updated 2026-07-25, see
+`docs/decisions.md`) -- the product direction is widening from manga-only to a general on-screen
+translator, so it's useful to know how this behaves broadly, not just on manga readers. At minimum,
+still run this against MANGA Plus and VIZ (real manga-reader DOM patterns, lazy-loading, CORS-y CDN
+image hosting -- good coverage for the reader-specific judgment calls in the limitations above), but
+add any other sites you want signal on -- e.g. Google Photos (generic photo grid, very different DOM
+shape/lazy-load pattern than a manga reader, good test of whether `candidate-filter.ts`'s heuristics
+generalize at all), a news article page (mixed text + inline images), or anything else. For each site
+tested, note the answers (in `SITE_NOTES.md`, see below) to:
 
 - [ ] Open a real chapter/reading page on the site.
 - [ ] Click the extension icon. Open the background service worker's console
@@ -143,7 +150,8 @@ below) to:
       positioned/sized, or does it look shifted/scaled wrong (see limitation #3 above, especially on
       a hidpi/scaled display)?
 
-**After running the checklist on both sites, filling in `SITE_NOTES.md` and writing the final
-go/no-go paragraph in `docs/decisions.md` are explicitly human-only steps** (per the spec and the
-pipeline's working style) -- not something any subagent should draft the content of. This README and
-the code stop at "here's what to check and how"; the actual findings and the go/no-go call are yours.
+**After running the checklist on however many sites you choose, filling in `SITE_NOTES.md` and
+writing the final go/no-go paragraph in `docs/decisions.md` are explicitly human-only steps** (per
+the spec and the pipeline's working style) -- not something any subagent should draft the content of.
+This README and the code stop at "here's what to check and how"; the actual findings and the go/no-go
+call are yours.
