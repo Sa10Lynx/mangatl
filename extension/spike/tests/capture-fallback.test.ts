@@ -39,9 +39,17 @@
  *      scrollOffset) silently produces a wrong crop rect whenever DPR != 1 and scrollOffset != 0
  *      at the same time -- this is exactly the bug the combined DPR+scroll test below exists to
  *      catch.
+ *
+ * Also covers `isRectFullyInViewport(bbox: Rect, viewport: Viewport): boolean` -- added in the
+ * background.ts bug-fix pass (see docs/decisions.md) after real-world manual testing surfaced a
+ * `captureVisibleTab` crop producing tiny, mostly-blank "successful" captures whenever the target
+ * element was scrolled (partially or fully) out of the visible viewport at capture time. Returns
+ * true only if bbox's full extent (x >= 0, y >= 0, x+width <= viewport.width,
+ * y+height <= viewport.height) is contained within the viewport; boundary-touching rects count as
+ * contained (inclusive).
  */
 import { describe, expect, it } from "vitest";
-import { computeCaptureCropRect, type Rect } from "../src/capture-fallback";
+import { computeCaptureCropRect, isRectFullyInViewport, type Rect } from "../src/capture-fallback";
 
 describe("computeCaptureCropRect", () => {
   it("returns the element rect unchanged at DPR=1 with no scroll offset", () => {
@@ -107,5 +115,46 @@ describe("computeCaptureCropRect", () => {
     const result = computeCaptureCropRect(elementRect, 1, { x: -5, y: -15 });
 
     expect(result).toEqual({ x: 105, y: 215, width: 300, height: 400 });
+  });
+});
+
+describe("isRectFullyInViewport", () => {
+  it("returns true for a rect fully contained within the viewport", () => {
+    const bbox: Rect = { x: 50, y: 50, width: 300, height: 400 };
+    const viewport = { width: 1024, height: 768 };
+
+    expect(isRectFullyInViewport(bbox, viewport)).toBe(true);
+  });
+
+  it("returns false for a negative-y rect scrolled above the viewport (real bug repro)", () => {
+    // Matches the real getBoundingClientRect() reading that exposed the underlying bug:
+    // {x: 160.5, y: -356.5, width: 768, height: 1206.3} -- ~356px of the element was scrolled
+    // above the top of the viewport at measurement/capture time.
+    const bbox: Rect = { x: 160.5, y: -356.5, width: 768, height: 1206.3 };
+    const viewport = { width: 1024, height: 768 };
+
+    expect(isRectFullyInViewport(bbox, viewport)).toBe(false);
+  });
+
+  it("returns false for a rect extending past the right edge of the viewport", () => {
+    const bbox: Rect = { x: 900, y: 50, width: 300, height: 400 };
+    const viewport = { width: 1024, height: 768 };
+
+    expect(isRectFullyInViewport(bbox, viewport)).toBe(false);
+  });
+
+  it("returns false for a rect extending past the bottom edge of the viewport", () => {
+    const bbox: Rect = { x: 50, y: 600, width: 300, height: 400 };
+    const viewport = { width: 1024, height: 768 };
+
+    expect(isRectFullyInViewport(bbox, viewport)).toBe(false);
+  });
+
+  it("returns true for a rect exactly touching the viewport boundary (inclusive)", () => {
+    const bbox: Rect = { x: 724, y: 368, width: 300, height: 400 };
+    const viewport = { width: 1024, height: 768 };
+
+    // x + width === viewport.width (1024) and y + height === viewport.height (768) exactly.
+    expect(isRectFullyInViewport(bbox, viewport)).toBe(true);
   });
 });
