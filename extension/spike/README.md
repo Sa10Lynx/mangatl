@@ -98,17 +98,26 @@ checklist below exists specifically to validate (or invalidate) them:
    **not** be caught by this spike. Check specifically: does scrolling on each target site reveal new
    manga pages that never get logged at all?
 3. **`captureVisibleTab` crop fallback assumes negligible scroll movement between measurement and
-   capture.** Rather than trying to track scan-time scroll position (which the locked
-   `CandidateFoundMessage` schema has no field for) and threading a scroll delta through
-   `capture-fallback.ts`'s `computeCaptureCropRect`, `background.ts` re-measures the candidate
-   element's current bounding rect + `devicePixelRatio` immediately before calling
-   `captureVisibleTab` (matching by resolved image URL) and calls `computeCaptureCropRect` with a
-   scroll offset of `{x: 0, y: 0}`. This is correct as long as the page doesn't scroll in the single
-   message round-trip between that re-measurement and the actual capture; if the element can no
-   longer be found (e.g. its `src` changed again, or it left the DOM), it falls back to the original,
-   possibly-stale `bbox` from the `CANDIDATE_FOUND` message with `devicePixelRatio` assumed to be 1 --
-   a reduced-accuracy path worth specifically checking (does a captured/cropped fallback image on a
-   hidpi display actually look right, or is it visibly off?).
+   capture, and now explicitly refuses to capture anything not fully within the viewport.** Rather
+   than trying to track scan-time scroll position (which the locked `CandidateFoundMessage` schema
+   has no field for) and threading a scroll delta through `capture-fallback.ts`'s
+   `computeCaptureCropRect`, `background.ts` re-measures the candidate element's current bounding
+   rect + `devicePixelRatio` + viewport size immediately before calling `captureVisibleTab` (matching
+   by resolved image URL). Real testing (2026-07-25) found that elements only partially scrolled into
+   view produce a garbage, misleadingly-"successful" tiny capture (`captureVisibleTab` can't see
+   pixels outside the visible viewport, and Canvas silently blanks the missing region instead of
+   erroring) -- fixed with `isRectFullyInViewport()`: if the freshly-measured bbox isn't **fully**
+   contained in the viewport, the capture is skipped outright with a clear log line, rather than
+   producing bad data. Practical effect: on a long scrollable page, only images that happen to be
+   fully on-screen at the moment you click are capturable via this fallback path -- worth explicitly
+   checking how often that's actually the case during your manual pass, since it may mean most
+   off-screen images on a real page never get captured at all via this path (direct-fetch, when it
+   works, has no such limitation). If the element can no longer be found at all (e.g. its `src`
+   changed again, or it left the DOM), it falls back to the original, possibly-stale `bbox` from the
+   `CANDIDATE_FOUND` message with `devicePixelRatio` assumed to be 1 and skips the viewport check
+   entirely (no fresh viewport data exists in that path) -- a reduced-accuracy path worth specifically
+   checking (does a captured/cropped fallback image on a hidpi display actually look right, or is it
+   visibly off?).
 4. **CSS `background-image` panels are not scanned at all** -- only real `<img>` elements. If either
    target site renders pages that way, that's a hard miss for this spike, not a fallback case.
 5. **The opt-in raw-byte dump path (`ENABLE_RAW_BYTE_DUMP` in `background.ts`) is off by default**,
