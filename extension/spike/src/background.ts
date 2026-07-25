@@ -10,12 +10,16 @@
  *      message: try a direct fetch of the image bytes, falling back to
  *      `chrome.tabs.captureVisibleTab` + capture-fallback.ts's `computeCaptureCropRect` when the
  *      direct fetch fails (classic case: a `blob:` URL, or a CORS-blocked cross-origin fetch). The
- *      fallback path first re-checks (via capture-fallback.ts's `isRectFullyInViewport`) that the
- *      element is actually fully within the visible viewport -- `captureVisibleTab` cannot capture
- *      anything scrolled out of view, and attempting the crop anyway produces a silently-broken,
- *      misleadingly-"successful" image instead of an error -- and rejects a degenerate (near-zero)
- *      crop rect as a backstop. All `captureVisibleTab` calls are routed through a shared
- *      `RateLimiter` (rate-limiter.ts) to stay under Chrome's per-second quota.
+ *      fallback path re-measures the candidate's fresh geometry via `measureFreshGeometry`, retrying
+ *      a bounded number of times (retry.ts's `retryWhileDegenerate`) if that comes back degenerate
+ *      or not-found at all -- see MEASURE_FRESH_GEOMETRY_MAX_ATTEMPTS's comment for the confirmed
+ *      race condition this guards against -- then re-checks (via capture-fallback.ts's
+ *      `isRectFullyInViewport`) that the element is actually fully within the visible viewport --
+ *      `captureVisibleTab` cannot capture anything scrolled out of view, and attempting the crop
+ *      anyway produces a silently-broken, misleadingly-"successful" image instead of an error --
+ *      and rejects a degenerate (near-zero) crop rect as a final backstop. All `captureVisibleTab`
+ *      calls are routed through a shared `RateLimiter` (rate-limiter.ts) to stay under Chrome's
+ *      per-second quota.
  *   3. Log the outcome via logging.ts's metadata-only helpers -- never the raw bytes, per CLAUDE.md
  *      invariant 3. For the capture-fallback path, the logged width/height reflect the REAL cropped
  *      output dimensions, not the candidate's original descriptor size (see handleCandidateFound).
@@ -33,7 +37,8 @@ import {
 } from "./logging";
 import { validateMessage } from "./message-guard";
 import { RateLimiter } from "./rate-limiter";
-import type { CandidateFoundMessage, Rect } from "./types";
+import { retryWhileDegenerate } from "./retry";
+import { isDegenerateBbox, type CandidateFoundMessage, type Rect } from "./types";
 
 // Opt-in ONLY, defaults to OFF. Flip to `true` locally (never commit as `true`) to also attempt a
 // raw-byte dump via logging.ts's dumpRawBytes for manual spot-checking. Per CLAUDE.md invariant 3
@@ -61,6 +66,21 @@ const CAPTURE_VISIBLE_TAB_RETRY_DELAY_MS = 1000;
 // needs to change, update the other's cross-reference comment too so they don't silently drift
 // apart unnoticed.
 const MIN_CROP_DIMENSION_PX = 10;
+
+// Conservative guesses, NOT verified against real-world Alpine.js/React/etc. transition timings --
+// picked defensively for the race condition confirmed via manual DevTools testing (2026-07-25, see
+// docs/decisions.md): a site can preload an `<img>` with a real `naturalWidth`/`naturalHeight`
+// (passing candidate-filter.ts's checks) before its OWN reactivity actually reveals that element in
+// layout, so a `measureFreshGeometry` call made essentially immediately after receiving the
+// CANDIDATE_FOUND message can catch it mid-transition, still reporting a degenerate bbox, even
+// though the exact same element measures correctly moments later. 3 total attempts (1 initial + up
+// to 2 retries) x 200ms between attempts gives a worst-case added latency of ~400ms only in the
+// (hopefully rare) fully-exhausted case -- short enough to not meaningfully delay processing other
+// candidates given captureVisibleTabLimiter below already serializes captures with a 600ms minimum
+// gap, but long enough to plausibly let a reactive framework's DOM update settle. Revisit these
+// numbers if manual testing still shows degenerate bboxes surviving all 3 attempts on some site.
+const MEASURE_FRESH_GEOMETRY_MAX_ATTEMPTS = 3;
+const MEASURE_FRESH_GEOMETRY_RETRY_DELAY_MS = 200;
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -187,6 +207,12 @@ interface FreshGeometry {
  * message round-trip between this measurement and the capture call) and the reduced-accuracy
  * fallback path below when re-measurement fails entirely (e.g. the element was removed from the DOM
  * since the original scan).
+ *
+ * Note: this function itself makes exactly ONE measurement attempt and does not retry. Retrying
+ * across a bounded number of FRESH calls to this function (to ride out a reactive framework's own
+ * async DOM update, e.g. a preloaded `<img>` that is still `display:none` at the moment this first
+ * runs) is `runCaptureFallback`'s responsibility, via retry.ts's `retryWhileDegenerate` -- kept
+ * out of this function so it stays a single, simple "measure once" primitive.
  */
 async function measureFreshGeometry(
   tabId: number,
@@ -238,7 +264,21 @@ async function runCaptureFallback(
   const tabId = tab.id;
   const windowId = tab.windowId;
 
-  const fresh = await measureFreshGeometry(tabId, message.descriptor.url);
+  // Retry a bounded number of times (a FRESH measureFreshGeometry call each attempt, never reusing
+  // an earlier attempt's result) if re-measurement comes back with no match at all, or a match
+  // whose bbox is degenerate per types.ts's isDegenerateBbox -- see MEASURE_FRESH_GEOMETRY_MAX_ATTEMPTS's
+  // comment above for the confirmed race condition this guards against. If every attempt is
+  // exhausted and it's STILL degenerate/not-found, the existing behavior below (stale-bbox fallback,
+  // or the degenerate-crop-rect skip-and-log path) runs completely unchanged.
+  const fresh = await retryWhileDegenerate(
+    () => measureFreshGeometry(tabId, message.descriptor.url),
+    (result) => result !== undefined && !isDegenerateBbox(result.bbox),
+    {
+      maxAttempts: MEASURE_FRESH_GEOMETRY_MAX_ATTEMPTS,
+      delayMs: MEASURE_FRESH_GEOMETRY_RETRY_DELAY_MS,
+      sleep,
+    }
+  );
   // Reduced-accuracy fallback: if re-measurement failed, fall back to the original (possibly stale)
   // bbox from the CANDIDATE_FOUND message and assume devicePixelRatio 1 -- better than giving up
   // entirely, but the crop may be off if the page scrolled or is on a hidpi display. Documented in
