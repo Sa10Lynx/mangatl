@@ -53,6 +53,13 @@ const CAPTURE_VISIBLE_TAB_RETRY_DELAY_MS = 1000;
 
 // Backstop against a degenerate (near-zero) crop rect slipping through even after the
 // viewport-containment check in runCaptureFallback below -- see its use there.
+//
+// Numerically matches types.ts's MIN_VALID_BBOX_DIMENSION_PX (10), used by content-script.ts's
+// sendCandidate dedup guard -- kept as a deliberately independent constant, not imported from
+// there, since this one guards a device-pixel crop rect taken post-DPR-scaling, while that one
+// guards a CSS-pixel getBoundingClientRect() reading taken pre-DPR-scaling. If either value ever
+// needs to change, update the other's cross-reference comment too so they don't silently drift
+// apart unnoticed.
 const MIN_CROP_DIMENSION_PX = 10;
 
 function sleep(ms: number): Promise<void> {

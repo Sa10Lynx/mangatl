@@ -12,14 +12,21 @@ off a real reader page. No UI, no overlay -- console.log output only. See
   tab.
 - `src/candidate-filter.ts`, `src/capture-fallback.ts`, `src/image-fetch.ts`, `src/logging.ts`,
   `src/message-guard.ts`, `src/types.ts` -- pure-logic modules, unit-tested (`tests/*.test.ts`). Do
-  not modify without also updating their approved tests.
+  not modify without also updating their approved tests. `types.ts` also carries one small pure
+  runtime helper, `isDegenerateBbox` (`tests/types.test.ts`), used by `content-script.ts`'s dedup
+  guard below -- deliberately placed there rather than in `content-script.ts` itself, its only
+  consumer, since `content-script.ts` runs `run()` unconditionally at module load and would crash if
+  imported into this suite's Node (non-jsdom) test environment.
 - `src/dom-scan.ts` -- thin adapter over the real DOM (`document.querySelectorAll("img")`,
   `IntersectionObserver`). The "given an element, build an `ImageDescriptor`" core
   (`buildImageDescriptor`) is unit-tested with a fake element object
   (`tests/dom-scan.test.ts`); the live-DOM glue (`scanImages`, `watchForLazyLoadedImages`) is
   manual-verification-only.
 - `src/content-script.ts` -- entry point, glue only. Scans the page, filters candidates, sends
-  `CANDIDATE_FOUND` messages to the background worker. Manual-verification-only.
+  `CANDIDATE_FOUND` messages to the background worker. Manual-verification-only, except that its
+  `sendCandidate` dedup guard relies on `types.ts`'s unit-tested `isDegenerateBbox` (see above) so a
+  candidate scanned with a degenerate bbox doesn't permanently block a later, corrected report for
+  the same URL.
 - `src/background.ts` -- entry point, glue only. Injects the content script on icon click; on each
   valid `CANDIDATE_FOUND` message, tries a direct fetch, falls back to
   `chrome.tabs.captureVisibleTab` + crop on failure, and logs metadata only. Manual-verification-only.
@@ -49,7 +56,8 @@ Other useful scripts:
 - `npm run typecheck` -- `tsc --noEmit` over `src/` and `tests/`.
 - `npm test` -- runs the pure-logic unit test suite (`tests/*.test.ts`); does not touch `dom-scan.ts`'s
   live-DOM glue, `content-script.ts`, or `background.ts` beyond `dom-scan.ts`'s
-  `buildImageDescriptor`/`toBoundingRect` seam.
+  `buildImageDescriptor`/`toBoundingRect` seam and `types.ts`'s `isDegenerateBbox` seam (used by
+  `content-script.ts`'s dedup guard).
 
 ## Load-unpacked steps
 

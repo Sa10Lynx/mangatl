@@ -12,12 +12,23 @@
  */
 import { filterCandidates } from "./candidate-filter";
 import { scanImages, watchForLazyLoadedImages, type ScanResult } from "./dom-scan";
+import { isDegenerateBbox } from "./types";
 import type { CandidateFoundMessage } from "./types";
 
 // Dedup guard: the initial scan and the IntersectionObserver lazy-load callback can both report the
 // same URL (e.g. an image already in view at scan time also fires an intersection entry). Keyed on
 // resolved URL rather than DOM element so a genuinely re-resolved lazy URL for the same <img> is
 // still treated as "new" and reported.
+//
+// Bug-fix (see docs/decisions.md): a URL is only added to this set once we've seen a genuinely
+// valid (non-degenerate, see types.ts's isDegenerateBbox) bbox for it -- see sendCandidate below.
+// Some sites virtualize/collapse off-screen list items to zero size while still preloading their
+// <img>'s image data, so the initial scan can report a real, valid URL with a degenerate
+// {width: 0, height: 0}-ish bbox. If that URL were added to emittedUrls anyway, a LATER, corrected
+// report for the same URL from watchForLazyLoadedImages's IntersectionObserver (which re-measures a
+// fresh bbox once the element actually scrolls into view) would be silently dropped by the
+// `emittedUrls.has(url)` check below, forever -- confirmed via real testing as the root cause of
+// every candidate reporting a stale degenerate bbox even after scrolling through an entire chapter.
 const emittedUrls = new Set<string>();
 
 // Re-injection guard: background.ts's chrome.action.onClicked listener re-injects this file on
@@ -53,7 +64,13 @@ function sendCandidate(result: ScanResult): void {
   if (!passesCandidateFilter(result)) {
     return;
   }
-  emittedUrls.add(url);
+  // Only "claim" this URL in the dedup set once its bbox is genuinely valid -- see the emittedUrls
+  // docstring above. The message is still sent unconditionally either way, below: background.ts
+  // already handles a degenerate-bbox candidate safely (it skips the capture-fallback attempt on a
+  // degenerate crop rect), so there's no need to withhold sending here too.
+  if (!isDegenerateBbox(result.bbox)) {
+    emittedUrls.add(url);
+  }
 
   const message: CandidateFoundMessage = {
     type: "CANDIDATE_FOUND",
